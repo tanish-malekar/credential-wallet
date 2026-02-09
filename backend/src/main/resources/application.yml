@@ -1,0 +1,30 @@
+server:
+  port: 8082
+  servlet:
+    session:
+      timeout: 20m
+      cookie:
+        http-only: true
+        same-site: lax
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5434/wallet}
+    username: ${DATABASE_USER:wallet}
+    password: ${DATABASE_PASSWORD:local-demo-only}
+  sql:
+    init:
+      mode: always
+  security:
+    oauth2:
+      client:
+        registration:
+          wallet:
+            provider: local
+            client-id: credvault
+            client-secret: ${OIDC_CLIENT_SECRET:local-demo-secret}
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8082/login/oauth2/code/wallet
+            scope: openid,profile,email
+        provider:
+          local:
+            issuer-uri: ${OIDC_ISSUER:http://localhost:8180/realms/credvault}

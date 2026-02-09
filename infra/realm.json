@@ -1,0 +1,49 @@
+{
+  "realm": "credvault",
+  "enabled": true,
+  "displayName": "CredVault Local Demo",
+  "registrationAllowed": false,
+  "clients": [
+    {
+      "clientId": "credvault",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "local-demo-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": [
+        "http://localhost:8082/login/oauth2/code/wallet"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "email"
+      ],
+      "optionalClientScopes": []
+    }
+  ],
+  "users": [
+    {
+      "username": "demo",
+      "enabled": true,
+      "firstName": "Demo",
+      "lastName": "Member",
+      "email": "demo@example.test",
+      "emailVerified": false,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
