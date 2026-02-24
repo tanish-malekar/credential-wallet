@@ -1,0 +1,30 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: wallet
+      POSTGRES_USER: wallet
+      POSTGRES_PASSWORD: local-demo-only
+    ports:
+      - "127.0.0.1:5434:5432"
+    volumes:
+      - wallet-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wallet -d wallet"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  identity:
+    image: quay.io/keycloak/keycloak:26.0.8
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: local-admin-only
+    ports:
+      - "127.0.0.1:8180:8080"
+    volumes:
+      - ./infra/realm.json:/opt/keycloak/data/import/realm.json:ro
+      - identity-data:/opt/keycloak/data
+volumes:
+  wallet-data:
+  identity-data:
